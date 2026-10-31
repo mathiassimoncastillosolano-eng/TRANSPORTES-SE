@@ -1,3 +1,5 @@
+import { BrandLogo } from '@/components/brand/BrandLogo'
+
 /**
  * Panel visual del login (45–55% del ancho en desktop, oculto en móvil salvo
  * el lockup compacto que monta `LoginView`). Todo el motivo es SVG propio
@@ -74,16 +76,8 @@ export function LoginBrandPanel() {
       </svg>
 
       {/* Marca */}
-      <div className="relative z-10 flex items-center gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-500 text-base font-semibold text-ink-950">
-          R
-        </span>
-        <div className="leading-tight">
-          <p className="text-[19px] font-semibold tracking-tight" style={{ fontFamily: 'var(--font-display)' }}>
-            RutaLibre
-          </p>
-          <p className="text-xs text-ink-300">Sistema Empresarial</p>
-        </div>
+      <div className="relative z-10">
+        <BrandLogo subtitle="Sistema Empresarial" />
       </div>
 
       {/* Mensaje principal */}

@@ -31,16 +31,23 @@ export function EvolutionChart({ serie, cargando, error, onRetry, hayVentas }: E
       resumen={`Ingresos totales ${formatearMoneda(total)} en ${serie.length} días. Mejor día: ${mejor.fecha ? formatearFechaCorta(mejor.fecha) : '—'} con ${formatearMoneda(mejor.ingresos)}.`}
       className="xl:col-span-2"
     >
-      <p className="mb-2 flex items-center gap-2 text-xs text-text-500">
-        <span className="h-2.5 w-2.5 rounded-full" style={{ background: 'var(--color-chart-1)' }} aria-hidden="true" />
-        Ingresos (S/)
-      </p>
+      <div className="mb-3 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+        <div>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-text-500">Total del período</p>
+          <p className="mt-1 font-display text-2xl font-semibold leading-none tabular-nums text-text-900">{formatearMoneda(total)}</p>
+        </div>
+        {mejor.fecha && (
+          <p className="text-xs text-text-500">
+            Mejor día <span className="font-semibold text-text-900">{formatearFechaCorta(mejor.fecha)}</span> · {formatearMoneda(mejor.ingresos)}
+          </p>
+        )}
+      </div>
       <div aria-hidden="true">
         <ResponsiveContainer width="100%" height={280}>
           <AreaChart data={serie} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
             <defs>
               <linearGradient id="grad-ingresos" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--color-chart-1)" stopOpacity={0.35} />
+                <stop offset="0%" stopColor="var(--color-chart-1)" stopOpacity={0.28} />
                 <stop offset="100%" stopColor="var(--color-chart-1)" stopOpacity={0.02} />
               </linearGradient>
             </defs>
@@ -63,7 +70,7 @@ export function EvolutionChart({ serie, cargando, error, onRetry, hayVentas }: E
                 )
               }}
             />
-            <Area type="monotone" dataKey="ingresos" stroke="var(--color-chart-1)" strokeWidth={2} fill="url(#grad-ingresos)" />
+            <Area type="monotone" dataKey="ingresos" stroke="var(--color-chart-1)" strokeWidth={2.5} fill="url(#grad-ingresos)" activeDot={{ r: 5, strokeWidth: 2, stroke: 'var(--color-surface-card)' }} animationDuration={900} animationEasing="ease-out" />
           </AreaChart>
         </ResponsiveContainer>
       </div>

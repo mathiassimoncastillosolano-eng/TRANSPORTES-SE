@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import {
-  BarChart3,
   BookOpenCheck,
   CornerDownLeft,
   LayoutDashboard,
-  ScanLine,
   Search,
   SearchX,
   Ticket,
@@ -75,10 +73,8 @@ function PaletaAbierta() {
       { id: 'registrar', titulo: 'Registrar pasaje', descripcion: 'Iniciar una venta de pasaje', icono: <Ticket className={icono} />, claves: 'venta vender nuevo boleto', permiso: 'pasajes:registrar', ejecutar: ir('registrar-pasaje') },
       { id: 'disponibilidad', titulo: 'Consultar disponibilidad', descripcion: 'Buscar viajes y asientos libres', icono: <Route className={icono} />, claves: 'viajes horarios asientos buscar', permiso: 'pasajes:registrar', ejecutar: () => { setActiveSection('registrar-pasaje'); window.setTimeout(() => document.getElementById('filtro-origen')?.focus(), 60) } },
       { id: 'ventas', titulo: 'Ver ventas', descripcion: 'Ingresos y ocupación en el Dashboard', icono: <LayoutDashboard className={icono} />, claves: 'ingresos dashboard kpi', permiso: 'dashboard:ver', ejecutar: ir('dashboard') },
-      { id: 'reportes', titulo: 'Abrir reportes', descripcion: 'Indicadores y evolución de ventas', icono: <BarChart3 className={icono} />, claves: 'dashboard graficos indicadores', permiso: 'dashboard:ver', ejecutar: ir('dashboard') },
       { id: 'pasajero', titulo: 'Buscar pasajero', descripcion: 'Por documento o nombre', icono: <UserRoundSearch className={icono} />, claves: 'cliente dni documento', pronto: true },
       { id: 'viaje', titulo: 'Consultar viaje', descripcion: 'Estado y manifiesto de un viaje', icono: <BookOpenCheck className={icono} />, claves: 'manifiesto codigo', pronto: true },
-      { id: 'abordaje', titulo: 'Validar abordaje', descripcion: 'Verificar un boleto al subir', icono: <ScanLine className={icono} />, claves: 'escanear boleto embarque', pronto: true },
     ].filter((c) => hasPermission(user, c.permiso))
   }, [setActiveSection, user])
 

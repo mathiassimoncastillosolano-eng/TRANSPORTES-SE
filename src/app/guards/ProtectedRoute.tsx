@@ -1,3 +1,4 @@
+import { BrandLogo } from '@/components/brand/BrandLogo'
 import { useEffect, type ReactNode } from 'react'
 import { useAuthStore } from '@/stores/authStore'
 import { LoginView } from '@/views/Auth/LoginView'
@@ -29,9 +30,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   if (status === 'loading') {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center gap-4 bg-[linear-gradient(155deg,var(--color-ink-950),var(--color-ink-900))]">
-        <span className="animate-fade-slide-up flex h-11 w-11 items-center justify-center rounded-xl bg-accent-500 text-lg font-semibold text-ink-950">
-          R
-        </span>
+        <BrandLogo className="animate-fade-slide-up" />
         <div
           className="animate-fade-slide-up-sm flex items-center gap-2.5 text-sm text-ink-300"
           style={{ animationDelay: '120ms' }}

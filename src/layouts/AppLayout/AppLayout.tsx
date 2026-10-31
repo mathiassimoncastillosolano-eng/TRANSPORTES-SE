@@ -1,4 +1,8 @@
+import { useEffect } from 'react'
 import { CommandPalette } from '@/components/command/CommandPalette'
+import { homeSectionFor } from '@/config/navigation'
+import { TODAS_LAS_SEDES, useAuthStore } from '@/stores/authStore'
+import { useUIStore } from '@/stores/uiStore'
 import { Sidebar } from './Sidebar/Sidebar'
 import { Header } from './Header/Header'
 import { MainContent } from './MainContent/MainContent'
@@ -20,6 +24,17 @@ import { MainContent } from './MainContent/MainContent'
  * ahí según la sección activa del Sidebar.
  */
 export function AppLayout() {
+  const user = useAuthStore((s) => s.user)
+  const setActiveSection = useUIStore((s) => s.setActiveSection)
+  const setCurrentBranchId = useUIStore((s) => s.setCurrentBranchId)
+
+  // Al iniciar sesión (o recargar con sesión): pantalla de inicio según el rol y sede asignada.
+  useEffect(() => {
+    if (!user) return
+    setActiveSection(homeSectionFor(user))
+    if (user.agenciaId !== TODAS_LAS_SEDES) setCurrentBranchId(user.agenciaId)
+  }, [user, setActiveSection, setCurrentBranchId])
+
   return (
     <div className="app-canvas flex min-h-screen bg-surface">
       <a

@@ -1,6 +1,6 @@
 import { PanelLeft } from 'lucide-react'
 import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs'
-import { BranchSelector } from './BranchSelector'
+import { BranchInfo } from './BranchInfo'
 import { CommandTrigger } from './CommandTrigger'
 import { ThemeToggle } from './ThemeToggle'
 import { UserMenu } from './UserMenu'
@@ -43,7 +43,7 @@ export function Header() {
 
       <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2">
         <CommandTrigger />
-        <BranchSelector />
+        <BranchInfo />
         <ThemeToggle />
         <div className="mx-1 hidden h-6 w-px bg-border sm:block" aria-hidden="true" />
         <UserMenu />

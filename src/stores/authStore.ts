@@ -3,8 +3,7 @@ import type { AuthSession, AuthUser, Permission } from '@/types/auth'
 
 /**
  * Store de sesión. Autenticación 100% simulada (sin backend, sin JWT real):
- * un único usuario mock con rol trabajador (`staff`) y permisos acotados a
- * las capacidades del MVP.
+ * dos usuarios mock (personal de agencia y gerente) con permisos distintos.
  *
  * `status` representa el ciclo de vida real de la sesión:
  *   'loading'         -> verificando si ya existe una sesión (al abrir la app)
@@ -22,28 +21,44 @@ import type { AuthSession, AuthUser, Permission } from '@/types/auth'
  */
 
 const SESSION_KEY = 'rutalibre-se-session'
+/** `agenciaId` del gerente: no está atado a una sede. */
+export const TODAS_LAS_SEDES = 'todas'
 const RETRASO_VERIFICACION_MS = 450
 const RETRASO_LOGIN_MS = 700
 
-const permisosTrabajador: Permission[] = ['pasajes:registrar', 'dashboard:ver']
-
-const mockUser: AuthUser = {
+/**
+ * Dos perfiles de demostración:
+ *  - Personal de agencia: módulos de Operaciones y Comercial, atado a UNA sede.
+ *  - Gerente: solo el módulo de Supervisión (Dashboard), sobre todas las sedes.
+ */
+const staffUser: AuthUser = {
   id: 'usr_demo_1',
   name: 'Camila Rojas',
   email: 'camila.rojas@rutalibre.com',
   role: 'staff',
-  permissions: permisosTrabajador,
+  permissions: ['pasajes:registrar'] satisfies Permission[],
   agenciaId: 'lim-norte',
 }
 
+const managerUser: AuthUser = {
+  id: 'usr_demo_2',
+  name: 'Ricardo Salazar',
+  email: 'ricardo.salazar@rutalibre.com',
+  role: 'manager',
+  permissions: ['dashboard:ver'] satisfies Permission[],
+  agenciaId: TODAS_LAS_SEDES,
+}
+
+const usuarios: AuthUser[] = [staffUser, managerUser]
+
 /**
- * Credenciales de la cuenta de demostración. Se validan aquí (no hay
- * backend), y deliberadamente NO se imprimen en ningún texto de la UI: el
- * botón "Usar cuenta de demostración" del login las autocompleta sin
- * revelarlas como texto plano. Ver README para probarlas manualmente.
+ * Contraseña de las cuentas de demostración. Se valida aquí (no hay backend)
+ * y no se imprime en la UI: los botones de acceso de demostración entran
+ * directo, sin exponerla como texto.
  */
-const DEMO_EMAIL = mockUser.email
 const DEMO_PASSWORD = 'RutaLibre#2026'
+
+export type PerfilDemo = 'gerente' | 'agencia'
 
 export type LoginResult = { ok: true } | { ok: false; message: string }
 
@@ -51,6 +66,8 @@ interface AuthStoreState extends AuthSession {
   /** Comprueba si ya existe una sesión (sessionStorage) y resuelve el estado inicial. Se llama una sola vez al montar la app. */
   init: () => void
   login: (email: string, password: string) => Promise<LoginResult>
+  /** Entra directo con una cuenta de demostración (sin escribir credenciales). */
+  loginDemo: (perfil: PerfilDemo) => Promise<void>
   logout: () => void
 }
 
@@ -63,24 +80,31 @@ export const useAuthStore = create<AuthStoreState>()((set) => ({
   status: 'loading',
 
   init: () => {
-    const haySesion = window.sessionStorage.getItem(SESSION_KEY) === mockUser.id
+    const guardado = usuarios.find((u) => u.id === window.sessionStorage.getItem(SESSION_KEY))
+    const haySesion = !!guardado
     // Pequeño retraso solo cuando hay sesión que "verificar": si no la hay,
     // resolver de inmediato evita una espera artificial en la primera visita.
     esperar(haySesion ? RETRASO_VERIFICACION_MS : 0).then(() => {
-      set(haySesion ? { user: mockUser, status: 'authenticated' } : { user: null, status: 'unauthenticated' })
+      set(guardado ? { user: guardado, status: 'authenticated' } : { user: null, status: 'unauthenticated' })
     })
   },
 
   login: async (email, password) => {
     await esperar(RETRASO_LOGIN_MS)
-    const coincide =
-      email.trim().toLowerCase() === DEMO_EMAIL.toLowerCase() && password === DEMO_PASSWORD
-    if (!coincide) {
+    const usuario = usuarios.find((u) => u.email.toLowerCase() === email.trim().toLowerCase())
+    if (!usuario || password !== DEMO_PASSWORD) {
       return { ok: false, message: 'Correo o contraseña incorrectos. Verifica tus datos e inténtalo de nuevo.' }
     }
-    window.sessionStorage.setItem(SESSION_KEY, mockUser.id)
-    set({ user: mockUser, status: 'authenticated' })
+    window.sessionStorage.setItem(SESSION_KEY, usuario.id)
+    set({ user: usuario, status: 'authenticated' })
     return { ok: true }
+  },
+
+  loginDemo: async (perfil) => {
+    await esperar(RETRASO_LOGIN_MS)
+    const usuario = perfil === 'gerente' ? managerUser : staffUser
+    window.sessionStorage.setItem(SESSION_KEY, usuario.id)
+    set({ user: usuario, status: 'authenticated' })
   },
 
   logout: () => {
@@ -89,8 +113,11 @@ export const useAuthStore = create<AuthStoreState>()((set) => ({
   },
 }))
 
-/** Credenciales de demostración, solo para autocompletar el formulario (nunca se renderizan como texto). */
-export const demoCredentials = { email: DEMO_EMAIL, password: DEMO_PASSWORD }
+/** Datos públicos de las cuentas de demostración (para rotular los botones del login). */
+export const cuentasDemo: Record<PerfilDemo, { nombre: string; agenciaId: string }> = {
+  gerente: { nombre: managerUser.name, agenciaId: managerUser.agenciaId },
+  agencia: { nombre: staffUser.name, agenciaId: staffUser.agenciaId },
+}
 
 /** `'*'` concede todo; sin permiso requerido siempre se permite. */
 export function hasPermission(user: AuthUser | null, required?: string): boolean {

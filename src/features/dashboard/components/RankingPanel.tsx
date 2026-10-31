@@ -52,7 +52,7 @@ export function RankingPanel({
       error={error}
       onRetry={onRetry}
       vacio={!hayVentas}
-      alto={420}
+      alto={320}
       resumen={`Ranking por ingresos: ${filas.slice(0, 3).map((f) => `${f.etiqueta} ${formatearMoneda(f.ingresos)}`).join('; ')}.`}
     >
       <div aria-hidden="true">
@@ -77,12 +77,14 @@ export function RankingPanel({
                 )
               }}
             />
-            <Bar dataKey="ingresos" fill="var(--color-chart-1)" radius={[0, 4, 4, 0]} barSize={18} />
+            <Bar dataKey="ingresos" fill="var(--color-chart-1)" radius={[0, 6, 6, 0]} barSize={14} animationDuration={800} animationEasing="ease-out" />
           </BarChart>
         </ResponsiveContainer>
       </div>
+      <details className="group mt-3 text-xs text-text-500">
+        <summary className="cursor-pointer select-none font-medium text-text-700 transition-colors hover:text-text-900">Ver tabla de datos (ordenable)</summary>
+        <div className="mt-3">
       <Table
-        className="mt-4"
         caption={`${title}: tabla de datos`}
         columns={columnas}
         rows={filas}
@@ -98,6 +100,8 @@ export function RankingPanel({
           </tr>
         }
       />
+        </div>
+      </details>
     </ChartCard>
   )
 }

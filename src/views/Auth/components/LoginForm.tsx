@@ -1,9 +1,10 @@
 import { useRef, useState, type FormEvent } from 'react'
-import { AlertCircle, Eye, EyeOff, Lock, Mail, Wand2 } from 'lucide-react'
+import { AlertCircle, ArrowRight, BarChart3, Eye, EyeOff, Lock, Mail, Store } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Checkbox'
 import { Input } from '@/components/ui/Input'
-import { useAuthStore, demoCredentials } from '@/stores/authStore'
+import { useAuthStore, type PerfilDemo } from '@/stores/authStore'
+import { cn } from '@/utils/cn'
 import { useToastStore } from '@/stores/toastStore'
 
 const RECORDAR_KEY = 'rutalibre-se-remember-email'
@@ -14,6 +15,8 @@ const RECORDAR_KEY = 'rutalibre-se-remember-email'
  */
 export function LoginForm() {
   const login = useAuthStore((s) => s.login)
+  const loginDemo = useAuthStore((s) => s.loginDemo)
+  const [entrandoDemo, setEntrandoDemo] = useState<PerfilDemo | null>(null)
   const pushToast = useToastStore((s) => s.push)
 
   const [email, setEmail] = useState(() => window.localStorage.getItem(RECORDAR_KEY) ?? '')
@@ -42,10 +45,11 @@ export function LoginForm() {
     else window.localStorage.removeItem(RECORDAR_KEY)
   }
 
-  function autocompletarDemo() {
-    setEmail(demoCredentials.email)
-    setPassword(demoCredentials.password)
+  async function entrarDemo(perfil: PerfilDemo) {
+    if (enviando || entrandoDemo) return
     setError(null)
+    setEntrandoDemo(perfil)
+    await loginDemo(perfil)
   }
 
   /** Solo se usa en los `onChange` de los campos: limpia el error cuando la persona vuelve a escribir (no cuando el propio envío resetea el campo). */
@@ -94,7 +98,7 @@ export function LoginForm() {
           label="Correo electrónico"
           type="email"
           autoComplete="email"
-          placeholder="nombre.apellido@rutalibre.com"
+          placeholder="usuario@rutalibre.com"
           required
           invalid={!!error}
           iconLeft={<Mail className="h-4 w-4" aria-hidden="true" />}
@@ -147,19 +151,48 @@ export function LoginForm() {
         </Button>
       </form>
 
-      <div className="mt-6 flex items-start gap-2.5 rounded-xl border border-dashed border-border-strong bg-surface-sunken/60 px-3.5 py-3">
-        <Wand2 className="mt-0.5 h-4 w-4 shrink-0 text-text-400" aria-hidden="true" />
-        <div className="min-w-0 flex-1">
-          <p className="text-xs font-medium text-text-700">Cuenta de demostración</p>
-          <p className="mt-0.5 truncate text-xs text-text-500">{demoCredentials.email}</p>
+      <div className="mt-7">
+        <div className="mb-3 flex items-center gap-3">
+          <span className="h-px flex-1 bg-border" aria-hidden="true" />
+          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-text-500">o entra con una cuenta de demostración</p>
+          <span className="h-px flex-1 bg-border" aria-hidden="true" />
         </div>
-        <button
-          type="button"
-          onClick={autocompletarDemo}
-          className="shrink-0 text-xs font-medium text-accent-600 transition-colors hover:text-accent-500"
-        >
-          Autocompletar
-        </button>
+        <div className="grid grid-cols-1 gap-2.5">
+          {([
+            { perfil: 'gerente', titulo: 'Gerente', detalle: 'Supervisión · Dashboard de todas las sedes', icono: BarChart3 },
+            { perfil: 'agencia', titulo: 'Personal de agencia', detalle: 'Operaciones y Comercial · Terminal Lima Norte', icono: Store },
+          ] as const).map(({ perfil, titulo, detalle, icono: Icono }) => {
+            const cargando = entrandoDemo === perfil
+            return (
+              <button
+                key={perfil}
+                type="button"
+                onClick={() => entrarDemo(perfil)}
+                disabled={enviando || !!entrandoDemo}
+                className={cn(
+                  'group flex items-center gap-3 rounded-xl border border-border bg-surface-card px-3.5 py-3 text-left',
+                  'transition-[border-color,background-color,box-shadow,transform] duration-200 ease-[var(--ease-premium)]',
+                  'hover:-translate-y-px hover:border-accent-line hover:bg-surface-hover hover:shadow-panel',
+                  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-line',
+                  'disabled:pointer-events-none disabled:opacity-60',
+                )}
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-accent-50 text-accent-text transition-colors duration-200 group-hover:bg-accent-100">
+                  <Icono className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-display text-sm font-semibold text-text-900">{titulo}</span>
+                  <span className="mt-0.5 block truncate text-xs text-text-500">{detalle}</span>
+                </span>
+                {cargando ? (
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-border-strong border-t-accent-line" aria-label="Entrando…" />
+                ) : (
+                  <ArrowRight className="h-4 w-4 shrink-0 text-text-400 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-accent-text" aria-hidden="true" />
+                )}
+              </button>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

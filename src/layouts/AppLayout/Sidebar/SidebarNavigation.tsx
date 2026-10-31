@@ -20,7 +20,7 @@ export function SidebarNavigation({ collapsed, onNavigate }: SidebarNavigationPr
   return (
     <nav
       aria-label="Navegación principal"
-      className="scrollbar-thin-dark flex flex-1 flex-col gap-1 overflow-y-auto overflow-x-hidden px-2.5 py-3"
+      className="scrollbar-thin-dark flex flex-1 flex-col gap-1 overflow-y-auto overflow-x-hidden px-3.5 py-4"
     >
       {entries.map((entry) =>
         entry.kind === 'item' ? (

@@ -1,3 +1,5 @@
+import { homeSectionFor, permissionForSection } from '@/config/navigation'
+import { hasPermission, useAuthStore } from '@/stores/authStore'
 import { useUIStore } from '@/stores/uiStore'
 import { renderSection } from './SectionRegistry'
 
@@ -11,7 +13,10 @@ import { renderSection } from './SectionRegistry'
  * lo requiere la arquitectura del Shell.
  */
 export function MainView() {
-  const activeSectionId = useUIStore((s) => s.activeSectionId)
+  const solicitada = useUIStore((s) => s.activeSectionId)
+  const user = useAuthStore((s) => s.user)
+  // Un rol nunca ve una sección que no le corresponde (ej. el gerente no entra a Registrar pasaje).
+  const activeSectionId = hasPermission(user, permissionForSection(solicitada)) ? solicitada : homeSectionFor(user)
 
   // `key` fuerza un remount al cambiar de sección, lo que reinicia la
   // animación de entrada (fade + translate) definida en `index.css`. Es una
