@@ -13,9 +13,9 @@ export function SidebarSection({ section, collapsed, onNavigate }: SidebarSectio
   return (
     <div className="flex flex-col gap-1">
       {collapsed ? (
-        <div className="mx-3 my-2 h-px bg-ink-800" aria-hidden="true" />
+        <div className="mx-3 my-2 h-px bg-white/10" aria-hidden="true" />
       ) : (
-        <h3 className="px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-wider text-ink-400">
+        <h3 className="px-3 pb-1.5 pt-4 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-ink-400">
           {section.label}
         </h3>
       )}

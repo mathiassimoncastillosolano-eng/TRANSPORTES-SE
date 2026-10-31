@@ -45,7 +45,7 @@ export function Sidebar() {
       data-sidebar-mode={mode}
       aria-label="Navegación principal"
       className={cn(
-        'sticky top-0 flex h-screen shrink-0 flex-col bg-ink-950 transition-[width] duration-300 ease-in-out',
+        'sticky top-0 flex h-screen shrink-0 flex-col border-r border-white/[0.04] bg-gradient-to-b from-ink-950 to-ink-900 transition-[width] duration-300 ease-in-out',
         isCollapsed ? 'w-[76px]' : 'w-[264px]',
       )}
     >

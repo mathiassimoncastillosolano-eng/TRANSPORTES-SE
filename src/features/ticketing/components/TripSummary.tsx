@@ -152,7 +152,7 @@ function ResumenTotal() {
             {!sinAsientos && ` × ${cantidadPasajes}`}
           </p>
         </div>
-        <span key={importe} className="animate-step-swap text-[26px] font-semibold leading-none tabular-nums text-text-900">
+        <span key={importe} className="animate-step-swap font-display text-[28px] font-semibold leading-none tracking-tight tabular-nums text-text-900">
           {formatearMoneda(importe)}
         </span>
       </div>
@@ -176,15 +176,15 @@ export function TripSummary() {
       aria-label="Resumen del viaje"
       className="hidden overflow-hidden rounded-2xl border border-border bg-surface-card shadow-panel lg:sticky lg:top-24 lg:flex lg:max-h-[calc(100dvh-7rem)] lg:flex-col"
     >
-      <header className="flex shrink-0 items-start justify-between gap-3 px-5 pb-3 pt-4">
+      <header className="flex shrink-0 items-start justify-between gap-3 bg-[image:var(--gradient-brand-deep)] px-5 pb-4 pt-4 text-white">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-text-500">Resumen del viaje</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/70">Resumen del viaje</p>
           {viaje && (
-            <p className="mt-0.5 text-sm font-semibold text-text-900">{cantidadPasajes > 1 ? 'Tu operación' : 'Tu selección'}</p>
+            <p className="mt-0.5 font-display text-base font-semibold text-white">{cantidadPasajes > 1 ? 'Tu operación' : 'Tu selección'}</p>
           )}
         </div>
         {viaje && (
-          <span className="animate-check-pop mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-cta text-on-cta" aria-hidden="true">
+          <span className="animate-check-pop mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-accent-400 text-ink-950" aria-hidden="true">
             <Check className="h-3 w-3" strokeWidth={3} />
           </span>
         )}

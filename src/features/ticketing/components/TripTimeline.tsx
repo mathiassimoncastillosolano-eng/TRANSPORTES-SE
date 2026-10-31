@@ -62,7 +62,7 @@ export function TripTimeline({ origen, destino, hora, duracionMin, terminalOrige
   return (
     <div className="grid grid-cols-[auto_1fr] gap-x-4">
       {/* Salida */}
-      <p className="text-[32px] font-semibold leading-none tracking-tight tabular-nums text-text-900">{hora}</p>
+      <p className="font-display text-[32px] font-semibold leading-none tracking-tight tabular-nums text-text-900">{hora}</p>
       <div className="min-w-0 pt-0.5">
         <p className="flex items-center gap-2 truncate text-[15px] font-semibold text-text-900">
           <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-accent-line shadow-[0_0_0_3px_color-mix(in_srgb,var(--color-accent-line)_22%,transparent)]" aria-hidden="true" />

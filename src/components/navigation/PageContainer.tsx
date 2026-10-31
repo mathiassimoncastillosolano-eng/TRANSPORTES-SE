@@ -27,7 +27,7 @@ export function PageContainer({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1
-            className="text-2xl font-semibold tracking-tight text-text-900"
+            className="text-[26px] font-semibold leading-tight tracking-[-0.02em] text-text-900"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             {title}

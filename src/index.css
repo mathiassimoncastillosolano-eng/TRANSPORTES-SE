@@ -129,6 +129,9 @@
   --color-on-cta: #06281b; /* = --acento-sobre */
 
   /* Radios (= --radio-sm / md / lg) y duraciones (= --duracion-rapida / normal) */
+  /* = --gradiente-marca-profunda del portal */
+  --gradient-brand-deep: linear-gradient(135deg, #082a33 0%, #0b3f4c 48%, #0f566a 100%);
+
   --radius-card: 16px;
   --radius-panel: 22px;
   --radius-control: 10px;
@@ -254,6 +257,8 @@
   }
 
   html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -262,6 +267,11 @@
     font-family: var(--font-sans);
     background-color: var(--color-surface);
     color: var(--color-text-900);
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
   }
 
   /* Foco visible consistente para navegación por teclado */
@@ -412,6 +422,19 @@
 }
 
 @layer utilities {
+  /* Atmósfera del lienzo (= .diseno-principal del portal): luces ambientales muy tenues, sin tramas. */
+  .app-canvas {
+    background-image:
+      radial-gradient(1000px 560px at 6% -10%, rgba(20, 127, 145, 0.1), transparent 62%),
+      radial-gradient(860px 520px at 106% 8%, rgba(16, 185, 129, 0.05), transparent 60%);
+    background-attachment: fixed;
+  }
+  :root.dark .app-canvas {
+    background-image:
+      radial-gradient(1000px 560px at 6% -10%, rgba(44, 150, 165, 0.075), transparent 62%),
+      radial-gradient(860px 520px at 106% 8%, rgba(60, 205, 163, 0.035), transparent 60%);
+  }
+
   .animate-check-pop {
     animation: check-pop 240ms var(--ease-premium) both;
   }

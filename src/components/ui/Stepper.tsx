@@ -81,7 +81,7 @@ export function Stepper({ steps, current, onStepClick, className }: StepperProps
               <span className="min-w-0 text-left leading-tight">
                 <span
                   className={cn(
-                    'block truncate text-sm font-medium',
+                    'block truncate font-display text-sm font-semibold',
                     estado === 'pendiente' ? 'text-text-500' : 'text-text-900',
                   )}
                 >

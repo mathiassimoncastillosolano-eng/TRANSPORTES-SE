@@ -9,7 +9,7 @@ export function CommandTrigger() {
       type="button"
       onClick={() => abrir(true)}
       aria-label="Abrir paleta de comandos (Ctrl K)"
-      className="flex h-9 items-center gap-2 rounded-lg border border-border px-2.5 text-sm text-text-500 transition-colors duration-150 hover:border-border-strong hover:bg-surface-hover hover:text-text-700 sm:min-w-[168px]"
+      className="flex h-9 items-center gap-2 rounded-[10px] border border-border bg-surface-sunken px-2.5 text-sm text-text-500 transition-colors duration-150 hover:border-border-strong hover:bg-surface-hover hover:text-text-700 sm:min-w-[168px]"
     >
       <Search className="h-4 w-4 shrink-0" aria-hidden="true" />
       <span className="hidden flex-1 text-left sm:inline">Buscar…</span>

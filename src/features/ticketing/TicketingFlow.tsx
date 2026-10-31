@@ -69,7 +69,7 @@ export function TicketingFlow() {
         )
       }
     >
-      <div className="no-print rounded-2xl border border-border bg-surface-card px-5 py-4">
+      <div className="no-print rounded-[var(--radius-card)] border border-border bg-surface-card px-5 py-3.5 shadow-panel">
         <BookingStepper />
       </div>
 

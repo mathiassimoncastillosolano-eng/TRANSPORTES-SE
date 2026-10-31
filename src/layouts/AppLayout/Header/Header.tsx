@@ -17,7 +17,7 @@ export function Header() {
   const { toggle, isCollapsed } = useSidebar()
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-4 border-b border-border bg-surface-card/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-surface-card/80 sm:px-6">
+    <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-4 border-b border-border bg-surface-card/85 px-4 backdrop-blur-xl backdrop-saturate-150 sm:px-6">
       <div className="flex min-w-0 items-center gap-3">
         <Tooltip label={isCollapsed ? 'Expandir menú' : 'Contraer menú'} side="bottom">
           <button

@@ -31,27 +31,27 @@ export function SidebarItem({ item, collapsed, onNavigate }: SidebarItemProps) {
       onClick={handleClick}
       aria-current={isActive ? 'page' : undefined}
       className={cn(
-        'group relative flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm font-medium',
+        'group relative flex w-full items-center gap-3 rounded-[10px] px-3 py-2 text-left text-[13.5px] font-medium',
         'transition-[background-color,color] duration-200 ease-[var(--ease-premium)]',
         'active:scale-[0.98]',
         collapsed && 'justify-center px-0 py-2.5',
         isActive
-          ? 'bg-ink-800 text-white shadow-[inset_0_0_0_1px_rgb(255_255_255/0.04)]'
-          : 'text-ink-300 hover:bg-ink-850 hover:text-white',
+          ? 'bg-white/[0.08] text-white shadow-[inset_0_0_0_1px_rgb(255_255_255/0.06)]'
+          : 'text-ink-300 hover:bg-white/[0.05] hover:text-white',
       )}
       aria-label={item.title}
     >
       <span
         aria-hidden="true"
         className={cn(
-          'absolute left-0 top-1/2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-accent-500 shadow-[0_0_10px_1px_var(--color-accent-500)]',
+          'absolute -left-2.5 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-full bg-accent-400',
           'transition-[opacity,transform] duration-200 ease-[var(--ease-premium)]',
           isActive && !collapsed ? 'scale-100 opacity-100' : 'scale-0 opacity-0',
         )}
       />
       <Icon
         className={cn(
-          'h-[18px] w-[18px] shrink-0 transition-[color,transform] duration-200 ease-[var(--ease-premium)] group-hover:scale-110',
+          'h-[18px] w-[18px] shrink-0 transition-[color,transform] duration-200 ease-[var(--ease-premium)] group-hover:scale-105',
           isActive ? 'text-accent-400' : 'text-ink-300 group-hover:text-white',
         )}
         aria-hidden="true"
