@@ -81,7 +81,7 @@ export function AsientoStep() {
               <span
                 className={cn(
                   'font-semibold',
-                  seleccionVigente.length === MAX_ASIENTOS ? 'text-accent-line' : 'text-text-900',
+                  seleccionVigente.length === MAX_ASIENTOS ? 'text-accent-text' : 'text-text-900',
                 )}
               >
                 {seleccionVigente.length} de {MAX_ASIENTOS}
@@ -95,7 +95,7 @@ export function AsientoStep() {
                     <button
                       type="button"
                       onClick={() => alternar(numero)}
-                      className="animate-check-pop group flex items-center gap-1 rounded-full border border-accent-line/40 bg-accent-line/10 py-1 pl-2.5 pr-1.5 text-xs font-semibold text-accent-line transition-colors hover:border-danger-500/50 hover:bg-danger-500/10 hover:text-danger-600"
+                      className="animate-check-pop group flex items-center gap-1 rounded-full border border-accent-line/40 bg-accent-line/10 py-1 pl-2.5 pr-1.5 text-xs font-semibold text-accent-text transition-colors hover:border-danger-500/50 hover:bg-danger-500/10 hover:text-danger-600"
                       aria-label={`Quitar asiento ${codigos[i]}`}
                     >
                       {codigos[i]}

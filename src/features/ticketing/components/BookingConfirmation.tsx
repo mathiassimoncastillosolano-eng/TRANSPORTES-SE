@@ -145,7 +145,7 @@ export function BookingConfirmation() {
                       className={cn(
                         'h-8 min-w-8 rounded-lg border px-2 text-xs font-semibold tabular-nums transition-colors',
                         i === verIndice
-                          ? 'border-accent-line bg-accent-line/12 text-accent-line'
+                          ? 'border-accent-line bg-accent-line/12 text-accent-text'
                           : 'border-border text-text-500 hover:bg-surface-hover',
                       )}
                     >

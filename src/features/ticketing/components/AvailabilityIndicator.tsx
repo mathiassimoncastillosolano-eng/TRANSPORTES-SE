@@ -10,11 +10,11 @@ interface AvailabilityIndicatorProps {
   className?: string
 }
 
-const estilos: Record<NivelDisponibilidad, { texto: string; barra: string; chip: string }> = {
-  alta: { texto: 'text-accent-line', barra: 'bg-accent-line', chip: 'bg-accent-line/10 text-accent-line' },
-  pocos: { texto: 'text-warning-500', barra: 'bg-warning-500', chip: 'bg-warning-500/12 text-warning-500' },
-  ultimos: { texto: 'text-danger-600', barra: 'bg-danger-500', chip: 'bg-danger-500/12 text-danger-600' },
-  agotado: { texto: 'text-text-500', barra: 'bg-text-400', chip: 'bg-text-400/12 text-text-500' },
+const estilos: Record<NivelDisponibilidad, { barra: string; chip: string }> = {
+  alta: { barra: 'bg-status-ok', chip: 'bg-status-ok/10 text-accent-text' },
+  pocos: { barra: 'bg-status-low', chip: 'bg-status-low/12 text-warning-text' },
+  ultimos: { barra: 'bg-status-out', chip: 'bg-status-out/12 text-danger-500' },
+  agotado: { barra: 'bg-text-400', chip: 'bg-text-400/12 text-text-500' },
 }
 
 /**

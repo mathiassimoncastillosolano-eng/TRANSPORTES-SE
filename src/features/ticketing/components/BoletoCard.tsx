@@ -22,7 +22,7 @@ export function BoletoCard({ indice, comprobante, onDescargar, onVer }: BoletoCa
           <p className="mt-1 truncate text-sm font-semibold text-text-900">{nombre}</p>
           <p className="mt-0.5 truncate text-xs tabular-nums text-text-500">{pasaje.codigo}</p>
         </div>
-        <span className="shrink-0 rounded-lg border border-accent-line/40 bg-accent-line/10 px-2.5 py-1 text-sm font-semibold tabular-nums text-accent-line">
+        <span className="shrink-0 rounded-lg border border-accent-line/40 bg-accent-line/10 px-2.5 py-1 text-sm font-semibold tabular-nums text-accent-text">
           {codigoAsiento}
         </span>
       </div>

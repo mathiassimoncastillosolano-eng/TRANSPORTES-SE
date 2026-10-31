@@ -3,7 +3,6 @@ import { useSidebar } from '@/hooks/useSidebar'
 import { cn } from '@/utils/cn'
 import { SidebarHeader } from './SidebarHeader'
 import { SidebarNavigation } from './SidebarNavigation'
-import { SidebarFooter } from './SidebarFooter'
 
 /**
  * Sidebar como componente independiente del resto del layout.
@@ -21,7 +20,6 @@ export function Sidebar() {
     <>
       <SidebarHeader collapsed={isCollapsed} />
       <SidebarNavigation collapsed={isCollapsed} />
-      <SidebarFooter collapsed={isCollapsed} />
     </>
   )
 
@@ -37,7 +35,6 @@ export function Sidebar() {
         <div className="flex h-full flex-col" onClick={(e) => e.stopPropagation()}>
           <SidebarHeader collapsed={false} />
           <SidebarNavigation collapsed={false} onNavigate={closeMobile} />
-          <SidebarFooter collapsed={false} />
         </div>
       </Drawer>
     )

@@ -26,7 +26,7 @@ export function Checkbox({ label, description, id, className, ...props }: Checkb
           )}
         />
         <Check
-          className="pointer-events-none relative h-3 w-3 scale-50 text-white opacity-0 transition-all duration-150 ease-[var(--ease-premium)] peer-checked:scale-100 peer-checked:opacity-100"
+          className="pointer-events-none relative h-3 w-3 scale-50 text-on-cta opacity-0 transition-all duration-150 ease-[var(--ease-premium)] peer-checked:scale-100 peer-checked:opacity-100"
           strokeWidth={3}
           aria-hidden="true"
         />

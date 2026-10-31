@@ -2,6 +2,8 @@
 
 Este documento explica el sistema de colores y el modo oscuro implementados en el frontend del SE (`erp-shell`), para que cualquier persona que agregue un módulo nuevo mantenga la consistencia visual sin tener que adivinar valores.
 
+> **Actualización (alineación con el portal).** Los valores de color, sombras y radios ahora son copia literal de `estilos/tokens.css` y `oscuro.css` del portal; la tabla de equivalencias está en el encabezado de `src/index.css`. Los hex de la tabla A que difieran de ese archivo están obsoletos. Tipografía de títulos: Space Grotesk. Nuevos tokens: `accent-text`, `warning-text`, `destructive`, `status-ok/low/out`.
+
 ## A. Paleta utilizada
 
 La paleta se tomó directamente de `estilos/tokens.css` del **Portal de Clientes** (familia "azul" y "verde" de marca). El SE la reutiliza aplicándola a una interfaz administrativa: el azul profundo pasa a ser el color de navegación/acciones primarias, y el verde pasa a ser el acento de foco y estados activos.

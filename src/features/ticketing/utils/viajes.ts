@@ -93,11 +93,33 @@ export function ordenarViajes(viajes: ViajeListado[], orden: OrdenViajes): Viaje
   }
 }
 
-export const OPCIONES_ORDEN: { value: OrdenViajes; label: string }[] = [
-  { value: 'hora-asc', label: 'Hora de salida (más próxima)' },
-  { value: 'hora-desc', label: 'Hora de salida (más lejana)' },
-  { value: 'disp-desc', label: 'Mayor disponibilidad' },
-  { value: 'disp-asc', label: 'Menor disponibilidad' },
-  { value: 'precio-asc', label: 'Menor precio' },
-  { value: 'precio-desc', label: 'Mayor precio' },
+// ------------------------------------------------- criterios de orden (UI)
+
+export type CriterioOrden = 'hora' | 'disponibilidad' | 'precio'
+export type DireccionOrden = 'asc' | 'desc'
+
+/** Los tres criterios del selector. La dirección se comunica solo con una flecha, nunca con texto. */
+export const CRITERIOS_ORDEN: { id: CriterioOrden; label: string }[] = [
+  { id: 'hora', label: 'Hora de salida' },
+  { id: 'disponibilidad', label: 'Disponibilidad' },
+  { id: 'precio', label: 'Precio' },
 ]
+
+const PREFIJO_ORDEN: Record<CriterioOrden, string> = { hora: 'hora', disponibilidad: 'disp', precio: 'precio' }
+
+/** Descompone un `OrdenViajes` en criterio + dirección. */
+export function descomponerOrden(orden: OrdenViajes): { criterio: CriterioOrden; direccion: DireccionOrden } {
+  const [prefijo, direccion] = orden.split('-') as [string, DireccionOrden]
+  const criterio = CRITERIOS_ORDEN.find((c) => PREFIJO_ORDEN[c.id] === prefijo)?.id ?? 'hora'
+  return { criterio, direccion }
+}
+
+/**
+ * Compone el `OrdenViajes` que entiende `ordenarViajes`:
+ *  - hora: asc = sale primero el más temprano · desc = el más tarde
+ *  - disponibilidad: asc = menos asientos libres primero · desc = más asientos libres
+ *  - precio: asc = más barato primero · desc = más caro
+ */
+export function componerOrden(criterio: CriterioOrden, direccion: DireccionOrden): OrdenViajes {
+  return `${PREFIJO_ORDEN[criterio]}-${direccion}` as OrdenViajes
+}

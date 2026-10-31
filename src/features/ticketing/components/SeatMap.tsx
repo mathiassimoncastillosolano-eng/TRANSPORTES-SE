@@ -63,7 +63,7 @@ export function SeatMap({ servicio, ocupados, seleccionados, puedeSeleccionarMas
         onClick={() => onToggle(numero)}
         className={cn(
           base,
-          ocupado && 'cursor-not-allowed border-border-subtle bg-surface-sunken text-text-400',
+          ocupado && 'cursor-not-allowed border-status-out/30 bg-status-out/10 text-danger-500',
           bloqueado && 'cursor-not-allowed border-border-subtle bg-transparent text-text-400 opacity-50',
           !ocupado &&
             !activo &&
@@ -97,7 +97,7 @@ export function SeatMap({ servicio, ocupados, seleccionados, puedeSeleccionarMas
           Disponible
         </li>
         <li className="flex items-center gap-2">
-          <span className="flex h-4 w-4 items-center justify-center rounded-t-md rounded-b-sm border border-border-subtle bg-surface-sunken text-text-400" aria-hidden="true">
+          <span className="flex h-4 w-4 items-center justify-center rounded-t-md rounded-b-sm border border-status-out/30 bg-status-out/10 text-danger-500" aria-hidden="true">
             <X className="h-3 w-3" strokeWidth={3} />
           </span>
           Ocupado

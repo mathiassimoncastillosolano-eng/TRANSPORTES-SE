@@ -13,7 +13,7 @@ import { TripResultsBar } from './TripResultsBar'
 
 /**
  * Paso 1: encontrar y elegir el viaje.
- *  - Búsqueda (origen, destino, fecha, servicio) → consulta al servicio.
+ *  - Búsqueda (origen, destino, fecha) → consulta al servicio.
  *    Arranca en Lima → Cusco; no existe una opción "Todos".
  *  - Horario (franjas) y orden → se aplican en el cliente sobre lo ya
  *    cargado, por eso responden al instante.
@@ -58,17 +58,19 @@ export function TripPicker() {
   const hayFiltros =
     filtros.origen !== ORIGEN_PREDETERMINADO ||
     filtros.destino !== DESTINO_PREDETERMINADO ||
-    !!filtros.servicioId ||
     filtros.fecha !== FECHA_REFERENCIA ||
     vista.franjas.length > 0 ||
     vista.orden !== vistaViajesInicial.orden
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Un único panel de búsqueda: campos arriba, horario debajo. */}
-      <section aria-label="Búsqueda de viajes" className="flex flex-col gap-3 rounded-2xl border border-border bg-surface-card p-3 shadow-panel">
+      {/* Un único panel de búsqueda: campos arriba, horario debajo, separados por una línea fina. */}
+      <section
+        aria-label="Búsqueda de viajes"
+        className="overflow-hidden rounded-[var(--radius-card)] border border-border bg-surface-card shadow-panel"
+      >
         <TravelFilters filtros={filtros} catalogo={catalogo} errorFecha={errorFecha} onFiltros={setFiltros} />
-        <div className="px-1 pb-0.5">
+        <div className="border-t border-border px-4 py-2.5">
           <ScheduleFilter franjas={vista.franjas} onChange={(franjas) => setVista({ franjas })} disabled={cargando} />
         </div>
       </section>

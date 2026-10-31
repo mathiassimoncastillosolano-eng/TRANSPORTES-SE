@@ -1,4 +1,4 @@
-import { Bus, CalendarDays, ChevronLeft, ChevronRight, Flag, MapPin } from 'lucide-react'
+import { CalendarDays, ChevronLeft, ChevronRight, Flag, MapPin } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Select } from '@/components/ui/Select'
 import { FECHA_REFERENCIA } from '@/config/referencia'
@@ -37,7 +37,7 @@ function Celda({ children, className }: { children: ReactNode; className?: strin
 }
 
 /**
- * Campos de búsqueda: Origen · Destino · Fecha · Servicio. Una sola rejilla
+ * Campos de búsqueda: Origen · Destino · Fecha. Una sola rejilla
  * con divisores finos (no una caja por campo). Cambiar cualquiera actualiza
  * la lista de inmediato. Origen y destino son siempre ciudades concretas; si
  * el usuario elige como origen la ciudad que ya es destino (o al revés), se
@@ -60,7 +60,7 @@ export function TravelFilters({ filtros, catalogo, errorFecha, onFiltros }: Trav
 
   return (
     <div className="@container">
-      <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-border bg-border @md:grid-cols-2 @3xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-px bg-border @md:grid-cols-2 @xl:grid-cols-3">
         <Celda>
           <Select
             id="filtro-origen"
@@ -89,7 +89,7 @@ export function TravelFilters({ filtros, catalogo, errorFecha, onFiltros }: Trav
           />
         </Celda>
 
-        <Celda className={cn(errorFecha && 'shadow-[inset_0_-2px_0_var(--color-danger-500)]')}>
+        <Celda className={cn('@md:col-span-2 @xl:col-span-1', errorFecha && 'shadow-[inset_0_-2px_0_var(--color-danger-500)]')}>
           <span id="filtro-fecha-label" className={etiquetaCelda}>
             Fecha
           </span>
@@ -132,25 +132,9 @@ export function TravelFilters({ filtros, catalogo, errorFecha, onFiltros }: Trav
           </div>
         </Celda>
 
-        <Celda>
-          <Select
-            id="filtro-servicio"
-            label="Servicio"
-            labelClassName={etiquetaCelda}
-            containerClassName="gap-0.5"
-            className={triggerCelda}
-            icon={<Bus className="h-4 w-4" />}
-            value={filtros.servicioId}
-            onChange={(v) => onFiltros({ servicioId: v as FiltrosViajeForm['servicioId'] })}
-            options={[
-              { value: '', label: 'Todos los servicios' },
-              ...(catalogo?.servicios ?? []).map((s) => ({ value: s.id, label: s.nombre, description: s.unidad })),
-            ]}
-          />
-        </Celda>
       </div>
       {errorFecha && (
-        <p role="alert" className="px-1 pt-2 text-xs font-medium text-danger-500">
+        <p role="alert" className="border-t border-border bg-surface-card px-4 py-2 text-xs font-medium text-danger-500">
           {errorFecha}
         </p>
       )}

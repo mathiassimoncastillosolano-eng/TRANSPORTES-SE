@@ -56,7 +56,7 @@ export function ScheduleFilter({ franjas, onChange, disabled }: ScheduleFilterPr
                 disabled && 'pointer-events-none opacity-50',
               )}
             >
-              <span className={cn('transition-colors duration-150', activo ? 'text-accent-line' : 'text-text-400')}>{iconos[f.id]}</span>
+              <span className={cn('transition-colors duration-150', activo ? 'text-accent-text' : 'text-text-400')}>{iconos[f.id]}</span>
               {f.label}
             </button>
           )

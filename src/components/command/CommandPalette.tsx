@@ -178,7 +178,7 @@ function PaletaAbierta() {
                 <span
                   className={cn(
                     'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border',
-                    i === activo && !c.pronto ? 'border-accent-line/40 bg-accent-line/10 text-accent-line' : 'border-border bg-surface-sunken text-text-500',
+                    i === activo && !c.pronto ? 'border-accent-line/40 bg-accent-line/10 text-accent-text' : 'border-border bg-surface-sunken text-text-500',
                   )}
                   aria-hidden="true"
                 >

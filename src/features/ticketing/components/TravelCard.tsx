@@ -48,14 +48,14 @@ export function TravelCard({
       aria-label={`Viaje ${viaje.origen} a ${viaje.destino}, salida ${viaje.hora}, ${servicioNombre}`}
       onClick={deshabilitado ? undefined : onSelect}
       className={cn(
-        'group/card @container relative overflow-hidden rounded-2xl border p-4 @2xl:p-5',
+        'group/card @container relative overflow-hidden rounded-[var(--radius-card)] border p-4 @2xl:p-5',
         'transition-[border-color,background-color,box-shadow] duration-200 ease-[var(--ease-premium)]',
         deshabilitado
           ? 'border-border-subtle bg-surface-card/60'
           : 'cursor-pointer hover:border-border-strong hover:bg-surface-hover hover:shadow-panel',
         !deshabilitado && !seleccionado && 'border-border bg-surface-card',
         seleccionado &&
-          'animate-[pulse-ring_250ms_var(--ease-premium)_1] border-accent-line bg-surface-selected hover:border-accent-line hover:bg-surface-selected',
+          'border-accent-line bg-surface-selected shadow-[0_0_0_1px_var(--color-accent-line)] hover:border-accent-line hover:bg-surface-selected',
       )}
     >
       {/* Barra lateral: marca la selección sin añadir más elementos a la tarjeta. */}
@@ -70,16 +70,11 @@ export function TravelCard({
       <div className="grid gap-x-6 gap-y-4 @2xl:grid-cols-[minmax(0,1fr)_188px]">
         {/* Columna principal: hora, ruta, disponibilidad */}
         <div className={cn('flex min-w-0 flex-col gap-4', deshabilitado && 'opacity-60')}>
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-[28px] font-semibold leading-none tracking-tight tabular-nums text-text-900">{viaje.hora}</p>
-            </div>
-            <div className="flex min-w-0 flex-col items-end gap-1">
-              <span className="max-w-full truncate rounded-md border border-border-strong bg-surface-sunken px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-text-700">
-                {servicioNombre}
-              </span>
-              <span className="max-w-full truncate text-[11px] tabular-nums text-text-400">{viaje.codigo}</span>
-            </div>
+          <div className="flex items-center justify-between gap-3">
+            <p className="font-display text-[28px] font-semibold leading-none tracking-tight tabular-nums text-text-900">{viaje.hora}</p>
+            <span className="max-w-[60%] truncate rounded-md border border-border bg-surface-sunken px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-text-700">
+              {servicioNombre}
+            </span>
           </div>
 
           <RouteLine
@@ -91,14 +86,18 @@ export function TravelCard({
             terminalDestino={terminalDestino}
           />
 
-          <div className="flex flex-col gap-2">
-            <AvailabilityIndicator
-              libres={viaje.asientosDisponibles}
-              capacidad={viaje.capacidad}
-              bloqueado={deshabilitado && viaje.motivoNoVendible !== 'agotado'}
-            />
-            {unidad && <p className="truncate text-xs text-text-500">{unidad}</p>}
-          </div>
+          <AvailabilityIndicator
+            libres={viaje.asientosDisponibles}
+            capacidad={viaje.capacidad}
+            bloqueado={deshabilitado && viaje.motivoNoVendible !== 'agotado'}
+          />
+
+          {/* Información complementaria: lo último que se lee. */}
+          <p className="flex min-w-0 items-center gap-1.5 text-xs text-text-500">
+            {unidad && <span className="truncate">{unidad}</span>}
+            {unidad && <span aria-hidden="true">·</span>}
+            <span className="shrink-0 tabular-nums">{viaje.codigo}</span>
+          </p>
         </div>
 
         {/* Columna de decisión: precio + acción */}
@@ -109,7 +108,7 @@ export function TravelCard({
           )}
         >
           <div className="@2xl:text-right">
-            <p className={cn('text-[22px] font-semibold leading-none tabular-nums', deshabilitado ? 'text-text-500' : 'text-text-900')}>
+            <p className={cn('font-display text-[24px] font-semibold leading-none tabular-nums', deshabilitado ? 'text-text-500' : 'text-text-900')}>
               {formatearMoneda(viaje.tarifa)}
             </p>
             <p className="mt-1 text-xs text-text-500">por pasajero</p>
@@ -133,8 +132,8 @@ export function TravelCard({
                 'cursor-not-allowed border-border-subtle bg-transparent text-text-400',
               !deshabilitado &&
                 !seleccionado &&
-                'border-accent-line/40 bg-transparent text-accent-line group-hover/card:border-transparent group-hover/card:bg-cta group-hover/card:text-on-cta',
-              seleccionado && 'border-accent-line bg-accent-line/12 text-accent-line',
+                'border-accent-line/40 bg-transparent text-accent-text group-hover/card:border-transparent group-hover/card:bg-cta group-hover/card:text-on-cta',
+              seleccionado && 'border-accent-line bg-accent-line/12 text-accent-text',
             )}
           >
             {deshabilitado ? (

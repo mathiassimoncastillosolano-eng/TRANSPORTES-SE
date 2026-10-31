@@ -50,7 +50,7 @@ export function PassengerTicketCard({
       {nombreCompleto ? (
         <p className="truncate text-xs text-text-500">{nombreCompleto}</p>
       ) : (
-        <p className={cn('text-xs font-medium', completo ? 'text-accent-line' : 'text-text-400')}>
+        <p className={cn('text-xs font-medium', completo ? 'text-accent-text' : 'text-text-400')}>
           {completo ? 'Completado' : 'Sin completar'}
         </p>
       )}

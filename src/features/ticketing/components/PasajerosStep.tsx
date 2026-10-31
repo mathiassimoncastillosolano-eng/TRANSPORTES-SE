@@ -101,7 +101,7 @@ export function PasajerosStep() {
         <div>
           <p className="text-sm font-medium text-text-700">
             Pasajeros ·{' '}
-            <span className={cantidadCompletados === cantidadPasajes ? 'text-accent-line' : 'text-text-500'}>
+            <span className={cantidadCompletados === cantidadPasajes ? 'text-accent-text' : 'text-text-500'}>
               {cantidadCompletados} de {cantidadPasajes} completados
             </span>
           </p>
@@ -155,7 +155,7 @@ export function PasajerosStep() {
         ) : (
           <>
             <div className="mb-4 flex items-center gap-2">
-              <span className="flex h-6 items-center rounded-md bg-accent-line/12 px-2 text-xs font-semibold tabular-nums text-accent-line">
+              <span className="flex h-6 items-center rounded-md bg-accent-line/12 px-2 text-xs font-semibold tabular-nums text-accent-text">
                 Asiento {codigoDe(activo)}
               </span>
               <p className="text-sm font-semibold text-text-900">Datos del pasajero</p>

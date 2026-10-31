@@ -4,30 +4,45 @@
   ---------------------------------------------------------------------------
   DESIGN TOKENS — RutaLibre Sistema Empresarial (SE)
   ---------------------------------------------------------------------------
-  Paleta alineada a la identidad visual del Portal de Clientes de RutaLibre
-  (ver `estilos/tokens.css` del portal: familia "azul" #071E25→#F2F7F8 y
-  acento "verde" #0E7A3C→#EFFBF5). El SE reutiliza la misma marca pero la
-  aplica a una experiencia administrativa: el azul profundo pasa a ser el
-  tono de navegación/sidebar (`ink`) y de acciones primarias (`primary`), el
-  verde pasa a ser el acento de foco y estados activos (`accent`), y se
-  agrega `route` como un azul intermedio para información/acciones
-  secundarias. Los NOMBRES de los tokens se conservan respecto a la versión
-  anterior del SE para no romper ningún componente — solo cambian los
-  valores, que es justamente el punto de tener un sistema centralizado.
+  FUENTE DE VERDAD: el Portal de Clientes (`estilos/tokens.css` y `oscuro.css`
+  del portal). Cada valor de este archivo se copió de allí; la columna
+  "Portal" de abajo indica de qué token proviene. El SE solo cambia los
+  NOMBRES (escala Tailwind: surface, text, border…) para no romper ningún
+  componente, nunca los valores.
 
-  Cada token tiene una variante para modo oscuro definida en el bloque
-  `:root.dark` más abajo. Un componente que consuma estos tokens (en vez de
-  colores sueltos) es automáticamente compatible con Dark Mode sin tocar
-  su código.
+    Token SE                     Portal (claro)                      Portal (oscuro)
+    ---------------------------  ----------------------------------  ---------------------------------
+    surface                      --color-fondo            #E8F0F3     --color-fondo            #070F13
+    surface-card                 --color-superficie       #FFFFFF     --color-superficie       #0E1C22
+    surface-sunken               --color-superficie-1     #F1F7F9     --color-fondo-alterno    #0A161B
+    surface-hover                --color-superficie-1     #F1F7F9     --color-superficie-2     #101F26
+    surface-raised               --color-superficie-elevada #FFFFFF   --color-superficie-elevada #12242B
+    surface-selected             --acento-tinte                       --acento-tinte
+    border / border-strong       --color-borde / -fuerte  #D5E2E8…    --borde-defecto / -intenso (blanco 9 % / 14 %)
+    text-900 / 500 / 400         --color-texto-principal / secundario / terciario
+    accent-line, cta             --acento                 #10B981     --acento                 #3CCDA3
+    cta-hover / cta-active       --acento-hover / -activo             --acento-hover / -activo
+    on-cta                       --acento-sobre           #06281B     --acento-sobre           #04211A
+    accent-text                  --color-texto-exito      #0E7A3C     --acento-texto           #6FE0BF
+    status-ok / low / out        --color-estado-*                     --color-estado-*
+    warning-text / danger-500    --color-aviso-texto / --color-error-texto
+    destructive                  --color-destructivo-fondo #C62222
+
+  Único paso DERIVADO (el portal solo define 3 niveles de texto): `text-700`,
+  intermedio entre principal y secundario.
+
+  Cada token tiene su variante oscura en `:root.dark`. Un componente que use
+  tokens (nunca hex sueltos) es automáticamente compatible con ambos temas.
   ---------------------------------------------------------------------------
 */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  /* Tipografía del portal: títulos Space Grotesk, texto Inter */
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* Ink — sidebar, elementos oscuros y color primario de marca (= azul del Portal) */
+  /* Ink — sidebar y marca (= --color-azul-* del portal) */
   --color-ink-950: #071e25;
   --color-ink-900: #0b3540;
   --color-ink-850: #0d414d;
@@ -43,44 +58,52 @@
   --color-primary-600: #0d414d;
   --color-primary-700: #071e25;
 
-  /* Secondary — "route": azul intermedio del Portal para info/acciones secundarias */
+  /* Secondary — "route": azul intermedio de marca */
   --color-route-50: #f2f7f8;
   --color-route-100: #cfe3e7;
   --color-route-400: #147f91;
   --color-route-500: #0b6878;
   --color-route-600: #0d414d;
 
-  /* Surface — área de contenido */
-  --color-surface: #f7f9fb;
+  /* Superficies */
+  --color-surface: #e8f0f3;
   --color-surface-card: #ffffff;
-  --color-surface-sunken: #f1f5f7;
-  --color-border: #e2e8ed;
-  --color-border-strong: #cbd6de;
+  --color-surface-sunken: #f1f7f9;
+  --color-border: #d5e2e8;
+  --color-border-strong: #b9cbd4;
 
-  /* Text sobre superficie clara */
+  /* Texto (700 = único paso derivado) */
   --color-text-900: #172b3a;
   --color-text-700: #3d505f;
   --color-text-500: #64748b;
   --color-text-400: #93a2b3;
 
-  /* Acento — verde del Portal (foco, estados activos, CTA destacados) */
+  /* Acento — verde de marca (--color-verde-*) */
   --color-accent-50: #effbf5;
   --color-accent-100: #e1f7ee;
   --color-accent-400: #2dd4a8;
   --color-accent-500: #16a34a;
   --color-accent-600: #0e7a3c;
+  --color-accent-text: #0e7a3c; /* texto de acento legible sobre claro (= --color-texto-exito) */
 
   /* Estado */
   --color-success-500: #16a34a;
   --color-success-50: #e1f7ee;
-  --color-danger-500: #dc4c3f;
-  --color-danger-600: #b83f36;
-  --color-danger-700: #a4372f;
-  --color-danger-50: #fbeae8;
-  --color-warning-500: #d18a1f;
-  --color-warning-50: #fbf1e0;
-  --color-info-500: #147f91;
+  --color-danger-500: #b91c1c; /* texto/borde de error (= --color-error-texto) */
+  --color-danger-50: #fbe4e4; /* = --color-error-fondo */
+  --color-warning-500: #f59e0b; /* = --color-estado-pocos */
+  --color-warning-50: #fff8ea; /* = --color-aviso-fondo */
+  --color-warning-text: #765317; /* = --color-aviso-texto */
+  --color-info-500: #0b6878; /* = --semantico-info */
   --color-info-50: #e4eef0;
+  --color-destructive: #c62222; /* = --color-destructivo-fondo: sostiene texto blanco */
+  --color-destructive-hover: #a91b1b;
+  --color-destructive-active: #8f1616;
+
+  /* Indicadores de disponibilidad (= --color-estado-disponible / pocos / agotado) */
+  --color-status-ok: #16a34a;
+  --color-status-low: #f59e0b;
+  --color-status-out: #ef4444;
 
   /* Series de gráficos (Dashboard). Nunca usar la paleta por defecto de la librería. */
   --color-chart-1: #147f91;
@@ -88,79 +111,68 @@
   --color-chart-3: #d18a1f;
   --color-chart-4: #5b73c9;
 
-  --shadow-panel: 0 1px 2px 0 rgb(7 30 37 / 0.05), 0 8px 24px -12px rgb(7 30 37 / 0.12);
-  --shadow-flyout: 0 4px 8px -2px rgb(7 30 37 / 0.08), 0 16px 40px -8px rgb(7 30 37 / 0.18);
-  --shadow-panel-hover: 0 2px 4px 0 rgb(7 30 37 / 0.06), 0 12px 28px -10px rgb(7 30 37 / 0.16);
+  /* Sombras (= --sombra-suave / --sombra-flotante / --sombra-marcada) */
+  --shadow-panel: 0 1px 2px rgba(11, 53, 64, 0.05), 0 10px 26px -12px rgba(11, 53, 64, 0.2);
+  --shadow-flyout: 0 8px 16px -6px rgba(11, 53, 64, 0.16), 0 34px 64px -26px rgba(11, 53, 64, 0.34);
+  --shadow-panel-hover: 0 4px 10px rgba(11, 53, 64, 0.06), 0 24px 48px -20px rgba(11, 53, 64, 0.3);
 
-  /* ---- Capa de "booking" (Registrar pasaje): superficies, selección y CTA ----
-     Estos tokens son semánticos: cambian de valor en :root.dark, los componentes
-     nunca usan hex sueltos. Ver THEMING.md ("Tokens de booking"). */
-  --color-surface-hover: #f4f8fa;
-  --color-surface-raised: #ffffff;
-  --color-surface-selected: #effbf5;
-  --color-border-subtle: #ebf0f3;
-  --color-accent-line: #16a34a; /* borde/relleno de selección y progreso */
-  --color-cta: #0e7a3c; /* acción primaria del flujo */
-  --color-cta-hover: #0b6a34;
-  --color-cta-active: #095a2c;
-  --color-on-cta: #ffffff;
+  /* ---- Capa de "booking" (Registrar pasaje): superficies, selección y CTA ---- */
+  --color-surface-hover: #f1f7f9; /* = --color-superficie-1 */
+  --color-surface-raised: #ffffff; /* = --color-superficie-elevada */
+  /* = --acento-tinte (12 %) sobre la tarjeta: se resuelve en ambos temas con los tokens vigentes */
+  --color-surface-selected: color-mix(in srgb, var(--color-accent-line) 12%, var(--color-surface-card));
+  --color-border-subtle: color-mix(in srgb, var(--color-border) 55%, #ffffff);
+  --color-accent-line: #10b981; /* = --acento (verde-600): borde/relleno de selección y progreso */
+  --color-cta: #10b981; /* = --acento */
+  --color-cta-hover: #2dd4a8; /* = --acento-hover (verde-500) */
+  --color-cta-active: #16a34a; /* = --acento-activo (verde-700) */
+  --color-on-cta: #06281b; /* = --acento-sobre */
 
+  /* Radios (= --radio-sm / md / lg) y duraciones (= --duracion-rapida / normal) */
   --radius-card: 16px;
+  --radius-panel: 22px;
   --radius-control: 10px;
   --duration-fast: 150ms;
-  --duration-base: 220ms;
+  --duration-base: 240ms;
+
+  /* Alturas de control */
+  --height-control-sm: 32px;
+  --height-control: 40px;
+  --height-control-lg: 44px;
 
   --width-sidebar-expanded: 264px;
   --width-sidebar-collapsed: 76px;
   --height-header: 64px;
 
-  --color-scrim: rgb(7 30 37 / 0.5);
+  --color-scrim: rgba(7, 30, 37, 0.5);
 
-  /* Curva de easing "premium" (expo-out): entradas rápidas que desaceleran con suavidad. Úsala en vez de ease/ease-in-out por defecto para cualquier microinteracción intencional (hover, apertura de menús, entrada de vistas). */
+  /* Curva de easing (= --transicion-premium del portal) */
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /*
   ---------------------------------------------------------------------------
-  DARK MODE
+  DARK MODE — copia del bloque `[data-theme='dark']` del portal
   ---------------------------------------------------------------------------
-  Estrategia: clase `.dark` en <html> (ver `src/theme/`). Como los tokens de
-  arriba son variables CSS estándar (no solo valores usados en build), basta
-  con redefinirlas bajo `:root.dark` para re-tematizar automáticamente TODOS
-  los componentes que ya usan `bg-surface`, `text-text-900`, `bg-primary-500`,
-  etc. — no hace falta tocar componentes individuales ni añadir `dark:` a
-  cada clase existente.
-
-  Jerarquía de superficies en oscuro (del fondo al más elevado): surface
-  (fondo app) → surface-card (paneles/tarjetas) → surface-sunken (zonas
-  hundidas: inputs, filas alternas, skeletons). El sidebar (`ink-950`) se
-  mantiene como el tono más profundo en ambos temas para separar claramente
-  navegación de contenido.
+  Estrategia: clase `.dark` en <html> (ver `src/theme/`). Basta con redefinir
+  los tokens bajo `:root.dark` para re-tematizar todos los componentes.
+  Jerarquía del portal: lienzo → superficie → elevada → fuerte → interactiva.
+  Bordes de 1px en blanco translúcido (6 / 9 / 14 %); el acento (menta) se
+  reserva para acción primaria, selección y foco; los estados viven en
+  iconos, badges y bordes, con fondos de baja opacidad.
   ---------------------------------------------------------------------------
 */
 :root.dark {
-  /*
-    Nota de accesibilidad: los tonos "500" de marca (primary/route/accent/
-    success/danger/warning/info) se mantienen deliberadamente MUY cercanos a
-    sus valores en modo claro. Son los colores sólidos que llevan texto
-    blanco encima (botones, badges de estado); aclararlos demasiado para
-    "que se vean más sobre fondo oscuro" degrada ese contraste con el texto
-    blanco por debajo del mínimo legible. Lo que sí cambia de forma marcada
-    es la jerarquía neutra (surface/border/text) y los tintes "-50/-100"
-    usados como fondo de badges y alertas.
-  */
-
-  /* Ink — el sidebar se mantiene más oscuro que el fondo de contenido en ambos temas */
-  --color-ink-950: #071317;
-  --color-ink-900: #0b1c22;
-  --color-ink-850: #10262d;
-  --color-ink-800: #0f4c5c;
-  --color-ink-700: #17697a;
+  /* Ink — el sidebar es el tono más profundo (= --barra-fondo del portal) */
+  --color-ink-950: #081115;
+  --color-ink-900: #0a161b;
+  --color-ink-850: #101f26;
+  --color-ink-800: #172f37; /* = --superficie-fuerte */
+  --color-ink-700: #1b353e; /* = --superficie-interactiva */
   --color-ink-600: #2f95a8;
-  --color-ink-400: #7fa3ab;
-  --color-ink-300: #b7c9ce;
+  --color-ink-400: #82979f; /* = --color-texto-terciario */
+  --color-ink-300: #a9bbc2; /* = --color-texto-secundario */
 
-  /* Primary — hover más claro (mejor feedback sobre fondo oscuro), activo más oscuro */
   --color-primary-50: #0d2730;
   --color-primary-500: #147f91;
   --color-primary-600: #1f96a9;
@@ -172,59 +184,66 @@
   --color-route-500: #147f91;
   --color-route-600: #0d414d;
 
-  /* Surface — jerarquía oscura con tinte azulado sutil, no negro puro. Más clara que
-     el sidebar (ink-950) a propósito, para separar navegación de contenido. */
-  --color-surface: #0b171b;
-  --color-surface-card: #102126;
-  --color-surface-sunken: #0d1c21;
-  --color-border: #1b3036;
-  --color-border-strong: #2a434a;
+  /* Superficies */
+  --color-surface: #070f13;
+  --color-surface-card: #0e1c22;
+  --color-surface-sunken: #0a161b;
+  --color-border: rgba(255, 255, 255, 0.09);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
 
   /* Capa de booking (oscuro) */
-  --color-surface-hover: #12272d;
-  --color-surface-raised: #162d33;
-  --color-surface-selected: #0f2c29;
-  --color-border-subtle: #16292e;
-  --color-accent-line: #34d399;
-  --color-cta: #10b981;
-  --color-cta-hover: #34d399;
-  --color-cta-active: #0ea371;
+  --color-surface-hover: #101f26;
+  --color-surface-raised: #12242b;
+  --color-border-subtle: rgba(255, 255, 255, 0.06);
+  --color-accent-line: #3ccda3;
+  --color-cta: #3ccda3;
+  --color-cta-hover: #4fd9b0;
+  --color-cta-active: #31b58e;
   --color-on-cta: #04211a;
 
-  /* Texto sobre superficie oscura */
-  --color-text-900: #eef4f4;
-  --color-text-700: #c3cfd1;
-  --color-text-500: #8fa0a4;
-  --color-text-400: #62767a;
+  /* Texto (700 = único paso derivado) */
+  --color-text-900: #e9f1f3;
+  --color-text-700: #c9d6da;
+  --color-text-500: #a9bbc2;
+  --color-text-400: #82979f;
 
-  /* Acento — mismo verde de marca; solo cambia el tinte de fondo para badges */
-  --color-accent-50: #0f2c29;
-  --color-accent-100: #123a34;
-  --color-accent-400: #34d399;
-  --color-accent-500: #16a34a;
-  --color-accent-600: #12893d;
+  /* Acento */
+  --color-accent-50: rgba(60, 205, 163, 0.07);
+  --color-accent-100: rgba(60, 205, 163, 0.11);
+  --color-accent-400: #4fd9b0;
+  --color-accent-500: #3ccda3;
+  --color-accent-600: #31b58e;
+  --color-accent-text: #6fe0bf;
 
-  --color-success-500: #16a34a;
-  --color-success-50: #0d2a20;
-  --color-danger-500: #dc4c3f;
-  --color-danger-600: #e8685c;
-  --color-danger-700: #f08a80;
-  --color-danger-50: #2c1512;
-  --color-warning-500: #d18a1f;
-  --color-warning-50: #2b2011;
-  --color-info-500: #147f91;
-  --color-info-50: #0d2730;
+  /* Estado */
+  --color-success-500: #3fcf9b;
+  --color-success-50: rgba(63, 207, 155, 0.1);
+  --color-danger-500: #f6a8a6;
+  --color-danger-50: rgba(242, 112, 110, 0.1);
+  --color-warning-500: #f0b429;
+  --color-warning-50: rgba(240, 180, 41, 0.08);
+  --color-warning-text: #f3d184;
+  --color-info-500: #6cc4db;
+  --color-info-50: rgba(108, 196, 219, 0.1);
+  --color-destructive: #c62222;
+  --color-destructive-hover: #d63a3a;
+  --color-destructive-active: #a91b1b;
+
+  --color-status-ok: #3fcf9b;
+  --color-status-low: #f0b429;
+  --color-status-out: #f2706e;
 
   --color-chart-1: #2f95a8;
   --color-chart-2: #2dd4a8;
   --color-chart-3: #e0a13e;
   --color-chart-4: #8ea0ec;
 
-  --shadow-panel: 0 1px 2px 0 rgb(0 0 0 / 0.24), 0 8px 24px -12px rgb(0 0 0 / 0.5);
-  --shadow-flyout: 0 4px 8px -2px rgb(0 0 0 / 0.3), 0 16px 40px -8px rgb(0 0 0 / 0.6);
-  --shadow-panel-hover: 0 2px 4px 0 rgb(0 0 0 / 0.3), 0 12px 28px -10px rgb(0 0 0 / 0.55);
+  /* Sombras amplias y difusas (= --sombra-suave / flotante / marcada oscuras) */
+  --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.24), 0 8px 24px -14px rgba(0, 0, 0, 0.5);
+  --shadow-flyout: 0 8px 20px -10px rgba(0, 0, 0, 0.45), 0 32px 64px -30px rgba(0, 0, 0, 0.65);
+  --shadow-panel-hover: 0 2px 6px rgba(0, 0, 0, 0.2), 0 20px 44px -24px rgba(0, 0, 0, 0.6);
 
-  --color-scrim: rgb(0 0 0 / 0.6);
+  --color-scrim: rgba(3, 8, 10, 0.66);
 
   color-scheme: dark;
 }
@@ -253,8 +272,8 @@
   }
 
   ::selection {
-    background-color: var(--color-accent-100);
-    color: var(--color-ink-900);
+    background-color: color-mix(in srgb, var(--color-accent-line) 28%, transparent);
+    color: var(--color-text-900);
   }
 
   @media (prefers-reduced-motion: reduce) {

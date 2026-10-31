@@ -89,7 +89,7 @@ function ResumenDetalle() {
                 <button
                   type="button"
                   onClick={() => irA('asientos')}
-                  className="text-[11px] font-medium text-accent-line transition-opacity duration-150 hover:underline"
+                  className="text-[11px] font-medium text-accent-text transition-opacity duration-150 hover:underline"
                 >
                   Cambiar
                 </button>
@@ -99,7 +99,7 @@ function ResumenDetalle() {
               {asientos.map((n) => (
                 <li
                   key={n}
-                  className="animate-check-pop rounded-md border border-accent-line/40 bg-accent-line/10 px-2 py-0.5 text-xs font-semibold tabular-nums text-accent-line"
+                  className="animate-check-pop rounded-md border border-accent-line/40 bg-accent-line/10 px-2 py-0.5 text-xs font-semibold tabular-nums text-accent-text"
                 >
                   {codigoDe(n)}
                 </li>
@@ -115,7 +115,7 @@ function ResumenDetalle() {
                   return (
                     <li key={n} className="flex items-center gap-2 text-[13px]">
                       {completo ? (
-                        <Check className="h-3.5 w-3.5 shrink-0 text-accent-line" strokeWidth={3} aria-label="Completo" />
+                        <Check className="h-3.5 w-3.5 shrink-0 text-accent-text" strokeWidth={3} aria-label="Completo" />
                       ) : (
                         <Circle className="h-3.5 w-3.5 shrink-0 text-text-400" aria-label="Pendiente" />
                       )}

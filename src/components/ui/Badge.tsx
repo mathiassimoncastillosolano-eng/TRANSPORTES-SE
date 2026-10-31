@@ -12,7 +12,7 @@ const toneClasses: Record<NonNullable<BadgeProps['tone']>, string> = {
   route: 'bg-route-100 text-route-600 dark:text-ink-300',
   success: 'bg-success-50 text-success-500',
   danger: 'bg-danger-50 text-danger-500',
-  warning: 'bg-warning-50 text-warning-500',
+  warning: 'bg-warning-50 text-warning-text',
   neutral: 'bg-surface-sunken text-text-500',
 }
 
