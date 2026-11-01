@@ -47,7 +47,7 @@ function ResumenDetalle() {
 
   return (
     // `key` por viaje: al cambiar de selección el bloque se anima de nuevo, de forma breve.
-    <div key={viaje.id} className="animate-fade-slide-up-sm px-5 pb-4">
+    <div key={viaje.id} className="animate-fade-slide-up-sm px-5 pb-4 pt-5">
       <TripTimeline
         origen={viaje.origen}
         destino={viaje.destino}

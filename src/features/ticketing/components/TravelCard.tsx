@@ -104,10 +104,10 @@ export function TravelCard({
         <div
           className={cn(
             'flex items-end justify-between gap-3 border-t border-border-subtle pt-4',
-            '@2xl:flex-col @2xl:items-stretch @2xl:justify-between @2xl:border-l @2xl:border-t-0 @2xl:pl-6 @2xl:pt-0',
+            '@2xl:flex-col @2xl:items-center @2xl:justify-center @2xl:gap-5 @2xl:border-l @2xl:border-t-0 @2xl:pl-6 @2xl:pt-0',
           )}
         >
-          <div className="@2xl:text-right">
+          <div className="@2xl:text-center">
             <p className={cn('font-display text-[24px] font-semibold leading-none tabular-nums', deshabilitado ? 'text-text-500' : 'text-text-900')}>
               {formatearMoneda(viaje.tarifa)}
             </p>

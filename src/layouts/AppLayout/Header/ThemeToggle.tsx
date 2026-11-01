@@ -1,65 +1,44 @@
-import { Check, Laptop, Moon, Sun } from 'lucide-react'
-import { Dropdown } from '@/components/ui/Dropdown'
+import { Moon, Sun } from 'lucide-react'
 import { Tooltip } from '@/components/ui/Tooltip'
-import { resolveTheme, useThemeStore, type ThemeMode } from '@/stores/themeStore'
-import { optionBaseClasses, optionCheckClasses, optionHoverClasses } from '@/components/ui/selectStyles'
+import { resolveTheme, useThemeStore } from '@/stores/themeStore'
 import { cn } from '@/utils/cn'
 
-const options: { value: ThemeMode; label: string; icon: typeof Sun }[] = [
-  { value: 'light', label: 'Claro', icon: Sun },
-  { value: 'dark', label: 'Oscuro', icon: Moon },
-  { value: 'system', label: 'Sistema', icon: Laptop },
-]
-
 /**
- * Selector de tema del Header. Un botón muestra el ícono del tema
- * *efectivo* actual (sol/luna) y, al abrirlo, deja elegir explícitamente
- * entre Claro / Oscuro / Sistema — igual que el resto de menús del header
- * (Dropdown genérico, mismas transiciones y geometría).
+ * Interruptor de tema del Header: un solo botón que alterna entre Claro y
+ * Oscuro (sin menú). El ícono refleja el tema *efectivo* actual; si la
+ * preferencia guardada era "Sistema", al pulsar se fija explícitamente el
+ * tema contrario al que se está viendo.
  */
 export function ThemeToggle() {
   const mode = useThemeStore((s) => s.mode)
   const setMode = useThemeStore((s) => s.setMode)
-  const resolved = resolveTheme(mode)
-  const CurrentIcon = resolved === 'dark' ? Moon : Sun
+  const esOscuro = resolveTheme(mode) === 'dark'
+  const etiqueta = esOscuro ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'
 
   return (
-    <Tooltip label="Tema" side="bottom">
-      <Dropdown
-        width={176}
-        trigger={({ open }) => (
-          <span
-            className={cn(
-              'flex h-9 w-9 items-center justify-center rounded-lg text-text-500 transition-colors hover:bg-surface-sunken hover:text-text-900',
-              open && 'bg-surface-sunken text-text-900',
-            )}
-            aria-label="Cambiar tema"
-          >
-            <CurrentIcon className="h-[18px] w-[18px]" aria-hidden="true" />
-          </span>
-        )}
+    <Tooltip label={etiqueta} side="bottom">
+      <button
+        type="button"
+        onClick={() => setMode(esOscuro ? 'light' : 'dark')}
+        aria-label={etiqueta}
+        aria-pressed={esOscuro}
+        className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-[10px] text-text-500 transition-[background-color,color,transform] duration-200 ease-[var(--ease-premium)] hover:bg-surface-sunken hover:text-text-900 active:scale-95"
       >
-        <div className="px-2.5 py-1.5 text-xs font-medium uppercase tracking-wide text-text-400">
-          Tema
-        </div>
-        {options.map((option) => {
-          const selected = option.value === mode
-          return (
-            <button
-              key={option.value}
-              type="button"
-              role="menuitemradio"
-              aria-checked={selected}
-              onClick={() => setMode(option.value)}
-              className={cn(optionBaseClasses, optionHoverClasses(selected))}
-            >
-              <option.icon className="h-4 w-4 text-text-400" aria-hidden="true" />
-              <span className={cn(selected && 'font-medium')}>{option.label}</span>
-              {selected && <Check className={cn(optionCheckClasses, 'ml-auto')} aria-hidden="true" />}
-            </button>
-          )
-        })}
-      </Dropdown>
+        <Sun
+          className={cn(
+            'absolute h-[18px] w-[18px] transition-[transform,opacity] duration-300 ease-[var(--ease-premium)]',
+            esOscuro ? 'rotate-90 scale-50 opacity-0' : 'rotate-0 scale-100 opacity-100',
+          )}
+          aria-hidden="true"
+        />
+        <Moon
+          className={cn(
+            'absolute h-[18px] w-[18px] transition-[transform,opacity] duration-300 ease-[var(--ease-premium)]',
+            esOscuro ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-50 opacity-0',
+          )}
+          aria-hidden="true"
+        />
+      </button>
     </Tooltip>
   )
 }
